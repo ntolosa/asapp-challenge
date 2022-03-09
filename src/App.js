@@ -1,24 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import './App.scss';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main className="challenge">
+      <section>
+        <div className='filters'>
+          <input placeholder='Start typing to filter cities...'></input>
+          <div>
+            <button>Show all</button>
+            <button>Show selected</button>
+            <button className='filters__clear'>Clear selection</button>
+          </div>
+        </div>
+      </section>
+      <section>
+        <div className='list'></div>
+      </section>
+    </main>
   );
 }
 
