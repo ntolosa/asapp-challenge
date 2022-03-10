@@ -1,5 +1,17 @@
 .city {
   border-bottom: 1px solid;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  &__selection {
+    margin: 5px;
+    border-right: 1px solid #CCC;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 3rem;
+  }
 
   &:hover {
     background-color: #AAA;

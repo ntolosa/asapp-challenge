@@ -2,7 +2,7 @@ import { ACTION_TYPES } from "../constants/actionTypes"
 
 export const INITIAL_STATE = {
   cities: [],
-  preferencies: [],
+  preferences: [],
   filter: '',
 };
 
@@ -18,6 +18,16 @@ export const citiesReducer = (state, action) => {
         ...state,
         filter: action.payload,
       }
+    case ACTION_TYPES.ADD_PREFERENCE:
+      return {
+        ...state,
+        preferences: [...state.preferences, action.payload],
+      };
+    case ACTION_TYPES.REMOVE_PREFERENCE:
+      return {
+        ...state,
+        preferences: state.preferences.filter(preference => preference !== action.payload),
+      };
     default: {
       return state;
     }
