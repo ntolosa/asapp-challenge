@@ -9,23 +9,3 @@ body {
   height: 100vh;
   padding-top: 10px;
 }
-
-.list{
-  height: calc(100vh - 150px);
-  border: 1px solid;
-  border-radius: 5px;
-  margin: 15px;
-} 
-
-.filters {
-  margin: 15px;
-  border: 1px solid;
-  border-radius: 5px;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-
-  &__clear {
-    float: right;
-  }
-}

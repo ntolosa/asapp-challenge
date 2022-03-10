@@ -1,21 +1,18 @@
 import './App.scss';
+import { useReducer } from 'react';
+import Filters from './components/filters/filters';
+import Cities from './components/cities/cities';
+import { INITIAL_STATE, citiesReducer } from './reducers/cities';
+import { citiesContext } from './context/cities';
 
 function App() {
+  const [state, dispatch] = useReducer(citiesReducer, INITIAL_STATE);
   return (
     <main className="challenge">
-      <section>
-        <div className='filters'>
-          <input placeholder='Start typing to filter cities...'></input>
-          <div>
-            <button>Show all</button>
-            <button>Show selected</button>
-            <button className='filters__clear'>Clear selection</button>
-          </div>
-        </div>
-      </section>
-      <section>
-        <div className='list'></div>
-      </section>
+      <citiesContext.Provider value={{state, dispatch}}>
+        <Filters/>
+        <Cities/>
+      </citiesContext.Provider>
     </main>
   );
 }
