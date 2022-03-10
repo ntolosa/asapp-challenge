@@ -5,6 +5,10 @@
   padding: 10px;
   display: flex;
   flex-direction: column;
+}
+
+.filter-buttons {
+  margin-top: 10px;
 
   &__clear {
     float: right;

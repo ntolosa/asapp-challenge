@@ -1,0 +1,22 @@
+.search-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: 1px solid;
+  border-radius: 5px;
+  padding: 5px;
+
+  &__clear:hover {
+    cursor: pointer;
+  }
+
+  &__input {
+    width: 100%;
+    font-size: 18px;
+    border: none;
+
+    &:focus {
+      outline: 0;
+    }
+  }
+}

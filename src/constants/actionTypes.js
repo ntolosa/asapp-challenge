@@ -1,3 +1,4 @@
 export const ACTION_TYPES = {
   SET_CITIES: 'SET_CITIES',
+  SET_FILTER: 'SET_FILTER',
 };

@@ -3,6 +3,7 @@ import { ACTION_TYPES } from "../constants/actionTypes"
 export const INITIAL_STATE = {
   cities: [],
   preferencies: [],
+  filter: '',
 };
 
 export const citiesReducer = (state, action) => {
@@ -11,6 +12,11 @@ export const citiesReducer = (state, action) => {
       return {
         ...state,
         cities: action.payload.data,
+      }
+    case ACTION_TYPES.SET_FILTER:
+      return {
+        ...state,
+        filter: action.payload,
       }
     default: {
       return state;

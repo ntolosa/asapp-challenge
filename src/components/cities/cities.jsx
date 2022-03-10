@@ -9,7 +9,7 @@ const Cities = () => {
   useEffect(() => {
     async function getCities() {
       //fetch cities
-      const response = await fetch('http://localhost:3030/cities')
+      const response = await fetch('http://localhost:3030/cities?limit=100')
       const data = await response.json();
 
       dispatch({
