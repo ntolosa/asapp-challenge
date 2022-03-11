@@ -1,11 +1,9 @@
 import './city.scss';
 import { useCities } from '../../context/cities';
 import { ACTION_TYPES } from '../../constants/actionTypes';
-import { useState } from 'react';
 
 const City = ({country, geonameid, name, selected = false, subcountry}) => {
   const { dispatch } = useCities();
-  console.log(name, selected);
   const updatePriorities = (checked) => {
     dispatch({
       type: checked ? ACTION_TYPES.ADD_PREFERENCE : ACTION_TYPES.REMOVE_PREFERENCE,

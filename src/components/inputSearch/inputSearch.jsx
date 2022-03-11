@@ -1,5 +1,5 @@
 import './inputSearch.scss';
-import { BsXSquare } from 'react-icons/bs';
+import { BsXSquare, BsSearch } from 'react-icons/bs';
 import { useState } from 'react';
 
 const InputSearch = ({handleSearch}) => {
@@ -18,6 +18,7 @@ const InputSearch = ({handleSearch}) => {
   }
   return (
     <div className='search-item'>
+      <BsSearch/>
       <input 
         className='search-item__input'
         placeholder='Start typing to filter the list...'

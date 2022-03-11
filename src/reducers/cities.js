@@ -5,6 +5,7 @@ export const INITIAL_STATE = {
   preferences: [],
   filter: '',
   nextPage: 'http://localhost:3030/cities?limit=100',
+  loading: true,
 };
 
 export const citiesReducer = (state, action) => {
@@ -14,15 +15,17 @@ export const citiesReducer = (state, action) => {
         ...state,
         cities: [...state.cities, ...action.payload.data.map(city=> ({
           ...city,
-          selected: false,
+          selected: state.preferences.includes(city.geonameid),
         }))],
         nextPage: action.payload.links.next,
+        loading: false,
       }
     case ACTION_TYPES.SET_FILTER:
       return {
         ...state,
         filter: action.payload,
         cities: [],
+        loading: true,
       }
     case ACTION_TYPES.CLEAR_PREFERENCES:
       return {
