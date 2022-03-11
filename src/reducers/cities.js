@@ -18,6 +18,11 @@ export const citiesReducer = (state, action) => {
         ...state,
         filter: action.payload,
       }
+    case ACTION_TYPES.CLEAR_PREFERENCES:
+      return {
+        ...state,
+        preferences: [],
+      }
     case ACTION_TYPES.ADD_PREFERENCE:
       return {
         ...state,
