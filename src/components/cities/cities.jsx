@@ -7,8 +7,7 @@ import City from '../city/city';
 const Cities = () => {
   const {dispatch, state} = useCities();
   const getCities = async () => {
-    //fetch cities
-    const response = await fetch(state.nextPage)
+    const response = await fetch(state.nextPage);
     const data = await response.json();
 
     dispatch({
@@ -30,10 +29,17 @@ const Cities = () => {
             <City key={city.geonameid} {...city} />
           ))
         }
-        <div>
-          <button onClick={loadMore}>Load More</button>
-          Or try searching by city, state or country to find waht you are looking for
-        </div>
+        {
+          state.nextPage ?
+          <div>
+            <button onClick={loadMore}>Load More</button>
+            Or try searching by city, state or country to find what you are looking for
+          </div>
+          :
+          <div>
+            No more cities to display!
+          </div>
+        }
       </div>
     </section>
   );
