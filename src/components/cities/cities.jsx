@@ -6,19 +6,22 @@ import City from '../city/city';
 
 const Cities = () => {
   const {dispatch, state} = useCities();
-  useEffect(() => {
-    async function getCities() {
-      //fetch cities
-      const response = await fetch('http://localhost:3030/cities?limit=100')
-      const data = await response.json();
+  const getCities = async () => {
+    //fetch cities
+    const response = await fetch(state.nextPage)
+    const data = await response.json();
 
-      dispatch({
-        type: ACTION_TYPES.SET_CITIES,
-        payload: data,
-      });
-    }
+    dispatch({
+      type: ACTION_TYPES.SET_CITIES,
+      payload: data,
+    });
+  }
+  useEffect(() => {
     getCities();
-  }, [])
+  }, []);
+  const loadMore = () => {
+    getCities();
+  };
   return (
     <section>
       <div className='cities'>
@@ -27,6 +30,10 @@ const Cities = () => {
             <City key={city.geonameid} {...city} />
           ))
         }
+        <div>
+          <button onClick={loadMore}>Load More</button>
+          Or try searching by city, state or country to find waht you are looking for
+        </div>
       </div>
     </section>
   );

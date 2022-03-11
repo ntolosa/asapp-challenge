@@ -4,6 +4,7 @@ export const INITIAL_STATE = {
   cities: [],
   preferences: [],
   filter: '',
+  nextPage: 'http://localhost:3030/cities?limit=100',
 };
 
 export const citiesReducer = (state, action) => {
@@ -11,7 +12,8 @@ export const citiesReducer = (state, action) => {
     case ACTION_TYPES.SET_CITIES:
       return {
         ...state,
-        cities: action.payload.data,
+        cities: [...state.cities, ...action.payload.data],
+        nextPage: action.payload.links.next,
       }
     case ACTION_TYPES.SET_FILTER:
       return {
