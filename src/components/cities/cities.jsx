@@ -3,6 +3,8 @@ import { useEffect } from 'react';
 import { useCities } from '../../context/cities';
 import { ACTION_TYPES } from '../../constants/actionTypes';
 import City from '../city/city';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const Cities = () => {
   const {dispatch, state} = useCities();
@@ -25,6 +27,7 @@ const Cities = () => {
     <section>
       <div className='cities'>
         {
+          state.loading ? <Skeleton count={10} /> : 
           state.cities.map(city => (
             <City key={city.geonameid} {...city} />
           ))
