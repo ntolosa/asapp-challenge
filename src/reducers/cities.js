@@ -1,11 +1,12 @@
 import { ACTION_TYPES } from "../constants/actionTypes"
+import { API_STATUS, pageSize, serverUrl } from "../constants/constants";
 
 export const INITIAL_STATE = {
   cities: [],
   preferences: [],
   filter: '',
-  nextPage: 'http://localhost:3030/cities?limit=100',
-  loading: true,
+  nextPage: `${serverUrl}/cities?limit=${pageSize}`,
+  status: API_STATUS.LOADING,
 };
 
 export const citiesReducer = (state, action) => {
@@ -18,14 +19,14 @@ export const citiesReducer = (state, action) => {
           selected: state.preferences.includes(city.geonameid),
         }))],
         nextPage: action.payload.links.next,
-        loading: false,
+        status: API_STATUS.SUCCESS,
       }
     case ACTION_TYPES.SET_FILTER:
       return {
         ...state,
         filter: action.payload,
         cities: [],
-        loading: true,
+        status: API_STATUS.LOADING,
       }
     case ACTION_TYPES.CLEAR_PREFERENCES:
       return {
@@ -54,6 +55,16 @@ export const citiesReducer = (state, action) => {
           selected: city.geonameid === action.payload ? false : city.selected,
         }))],
       };
+    case ACTION_TYPES.SET_ERROR:
+      return {
+        ...state,
+        status: API_STATUS.ERROR,
+      }
+    case ACTION_TYPES.LOAD_MORE:
+      return {
+        ...state,
+        status: API_STATUS.LOADING,
+      }
     default: {
       return state;
     }

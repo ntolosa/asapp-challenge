@@ -1,8 +1,10 @@
 import './city.scss';
 import { useCities } from '../../context/cities';
 import { ACTION_TYPES } from '../../constants/actionTypes';
+import { useState } from 'react';
 
 const City = ({country, geonameid, name, selected = false, subcountry}) => {
+  const [disabled, setDisabled] = useState(false);
   const { dispatch } = useCities();
   const updatePriorities = (checked) => {
     dispatch({
@@ -11,6 +13,7 @@ const City = ({country, geonameid, name, selected = false, subcountry}) => {
     })
   }
   const handleSelection = async (event) => {
+    setDisabled(true);
     const isChecked = event.target.checked;
     try {
       await fetch('http://localhost:3030/preferences/cities', {
@@ -26,12 +29,14 @@ const City = ({country, geonameid, name, selected = false, subcountry}) => {
     } catch(e) {
       console.error(e);
       updatePriorities(!isChecked);
+    } finally {
+      setDisabled(false);
     }
   }
   return (
     <div className='city'>
       <div className='city__selection'>
-        <input type="checkbox" checked={selected} onChange={handleSelection}/>
+        <input type="checkbox" checked={selected} onChange={handleSelection} disabled={disabled}/>
       </div>
       <div>
         <div>{name}</div>
