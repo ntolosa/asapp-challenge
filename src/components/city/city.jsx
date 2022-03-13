@@ -1,37 +1,16 @@
 import './city.scss';
-import { useCities } from '../../context/cities';
-import { ACTION_TYPES } from '../../constants/actionTypes';
 import { useState } from 'react';
+import usePreferences from '../../hooks/usePreferences';
 
 const City = ({country, geonameid, name, selected = false, subcountry}) => {
   const [disabled, setDisabled] = useState(false);
-  const { dispatch } = useCities();
-  const updatePriorities = (checked) => {
-    dispatch({
-      type: checked ? ACTION_TYPES.ADD_PREFERENCE : ACTION_TYPES.REMOVE_PREFERENCE,
-      payload: geonameid,
-    })
-  }
+  const { addPreference } = usePreferences();
+
   const handleSelection = async (event) => {
     setDisabled(true);
     const isChecked = event.target.checked;
-    try {
-      await fetch('http://localhost:3030/preferences/cities', {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          [geonameid]: isChecked,
-        }),
-      });
-      updatePriorities(isChecked);
-    } catch(e) {
-      console.error(e);
-      updatePriorities(!isChecked);
-    } finally {
-      setDisabled(false);
-    }
+    await addPreference(geonameid, isChecked);
+    setDisabled(false);
   }
   return (
     <div className='city'>
