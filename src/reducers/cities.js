@@ -16,6 +16,9 @@ export const INITIAL_STATE = {
   },
   status: API_STATUS.LOADING,
 };
+const sortFunction = (({ name: nameA }, { name: nameB }) =>
+  nameA.toLowerCase().localeCompare(nameB.toLowerCase())
+);
 
 export const citiesReducer = (state, action) => {
   switch(action.type) {
@@ -32,7 +35,10 @@ export const citiesReducer = (state, action) => {
         },
         preferences: {
           ...state.newPreferences,
-          data: action.payload.preferences,
+          data: action.payload.preferences.map(preference => ({
+            ...preference,
+            selected: true,
+          })).sort(sortFunction),
         },
         status: API_STATUS.SUCCESS,
       }
@@ -92,22 +98,22 @@ export const citiesReducer = (state, action) => {
         ...state,
         preferences: {
           ...state.preferences,
-          data: [...state.preferences.data, {geonameid: action.payload}],
+          data: [...state.preferences.data, {...action.payload.data, selected: true}],
         },
         cities: {
           ...state.cities,
           data: [...state.cities.data.map(city => ({
             ...city,
-            selected: city.geonameid === action.payload ? true : city.selected,
-          }))],
+            selected: city.geonameid === action.payload.data.geonameid ? true : city.selected,
+          }))].sort(sortFunction),
         },
       };
-    case ACTION_TYPES.REMOVE_PREFERENCE:
+    case ACTION_TYPES.REMOVE_PREFERENCE:  
       return {
         ...state,
         preferences: {
           ...state.preferences,
-          data: state.preferences.data.filter(preference => preference !== action.payload),
+          data: state.preferences.data.filter(preference => preference.geonameid !== action.payload),
         },
         cities: {
           ...state.cities,
