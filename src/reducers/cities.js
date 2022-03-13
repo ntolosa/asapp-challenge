@@ -1,18 +1,19 @@
 import { ACTION_TYPES } from "../constants/actionTypes"
-import { API_STATUS, pageSize, serverUrl } from "../constants/constants";
+import { API_STATUS, pageSize, serverUrl, VIEW_TYPE } from "../constants/constants";
 
 export const INITIAL_STATE = {
   cities: {
     data: [],
     nextPage: `${serverUrl}/cities?limit=${pageSize}`,
-    status: API_STATUS.LOADING
   },
   preferences: {
     data: [],
     nextPage: '',
-    status: API_STATUS.LOADING,
   },
-  filter: '',
+  filter: {
+    searchTerm: '',
+    viewType: VIEW_TYPE.ALL,
+  },
   status: API_STATUS.LOADING,
 };
 
@@ -28,14 +29,12 @@ export const citiesReducer = (state, action) => {
             selected: action.payload.preferences.find(preference => preference.geonameid === city.geonameid),
           })),
           nextPage: action.payload.cities.data.links.next,
-          status: API_STATUS.SUCCESS,
         },
         preferences: {
           ...state.newPreferences,
           data: action.payload.preferences,
-          status: API_STATUS.SUCCESS,
         },
-        status: ACTION_TYPES.SUCCESS,
+        status: API_STATUS.SUCCESS,
       }
     case ACTION_TYPES.SET_CITIES:
       return {
@@ -47,21 +46,31 @@ export const citiesReducer = (state, action) => {
             selected: state.preferences.data.find(preference => preference.geonameid === city.geonameid),
           }))],
           nextPage: action.payload.links.next,
-          status: API_STATUS.SUCCESS,
         },
+        status: API_STATUS.SUCCESS,
       }
-    case ACTION_TYPES.SET_FILTER:
+    case ACTION_TYPES.SEARCH_CITIES:
       return {
         ...state,
-        filter: action.payload,
+        filter: {
+          ...state.filter,
+          searchTerm: action.payload,
+        },
         nextPage: action.payload,
         cities: {
           ...state.cities,
           data: [],
           nextPage: action.payload,
-          status: API_STATUS.LOADING,
         },
         status: API_STATUS.LOADING,
+      }
+    case ACTION_TYPES.SELECT_VIEW_TYPE:
+      return {
+        ...state,
+        filter: {
+          ...state.filter,
+          viewType: action.payload,
+        },
       }
     case ACTION_TYPES.CLEAR_PREFERENCES:
       return {
