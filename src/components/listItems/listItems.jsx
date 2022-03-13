@@ -2,6 +2,7 @@
 import './listItems.scss';
 import { API_STATUS } from '../../constants/constants';
 
+// this components should be an infinite scroll with virtualization, but for now is a list with a load more button
 const ListItems = ({items = [], children, loadingComponent, loadingStatus, hasMore, loadMore, onRetry}) => {
   return (
     <>

@@ -23,8 +23,8 @@ const Filters = () => {
       <InputSearch handleSearch={filterCities}/>
       <div className='filter-buttons'>
         <button>Show all</button>
-        <button>Show selected ({state.preferences.length})</button>
-        <button className='filter-buttons__clear' disabled={state.preferences.length === 0} onClick={clearPreferences}>Clear selection</button>
+        <button>Show selected ({state.preferences.data.length})</button>
+        <button className='filter-buttons__clear' disabled={state.preferences.data.length === 0} onClick={clearPreferences}>Clear selection</button>
       </div>
     </div>
   </section>);

@@ -8,9 +8,12 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import useGetCities from '../../hooks/useGetCities';
 import ListItems from '../listItems/listItems';
 
+import useInitialize from '../../hooks/useUnitialize';
+
 const Cities = () => {
   const {dispatch, state} = useCities();
   const getCities = useGetCities();
+  const initialize = useInitialize();
   const loadMore = () => {
     dispatch({
       type: ACTION_TYPES.LOAD_MORE,
@@ -18,7 +21,7 @@ const Cities = () => {
     getCities(state.nextPage);
   }
   useEffect(() => {
-    getCities(state.nextPage);
+    initialize();
   }, []);
   return (
     <section className='cities'>
@@ -28,7 +31,7 @@ const Cities = () => {
         hasMore={state.nextPage}
         loadMore={loadMore}
         onRetry={loadMore}
-        items={state.cities}
+        items={state.cities.data}
         >
           {city => <City key={city.geonameid} {...city} />}
       </ListItems>

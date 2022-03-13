@@ -1,5 +1,4 @@
 import { ACTION_TYPES } from "../constants/actionTypes";
-import { API_STATUS } from "../constants/constants";
 import { useCities } from "../context/cities";
 import { patch } from "../helper/fetch";
 import { serverUrl } from '../constants/constants';
@@ -19,8 +18,8 @@ const usePreferences = () => {
   };
 
   const clearPreferences = async() => {
-    const preferences = state.preferences.reduce((result, preference) => {
-      result[preference] = false;
+    const preferences = state.preferences.data.reduce((result, preference) => {
+      result[preference.geonameid] = false;
       return result;
     }, {});
     try {
@@ -33,7 +32,7 @@ const usePreferences = () => {
     }
   }
 
-  return {addPreference, clearPreferences};
+  return { addPreference, clearPreferences };
 }
 
 export default usePreferences;
