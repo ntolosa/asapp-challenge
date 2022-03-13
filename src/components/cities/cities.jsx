@@ -3,10 +3,10 @@ import { useEffect } from 'react';
 import { useCities } from '../../context/cities';
 import { ACTION_TYPES } from '../../constants/actionTypes';
 import City from '../city/city';
-import Skeleton from 'react-loading-skeleton'
+import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css'
-import { API_STATUS } from '../../constants/constants';
 import useGetCities from '../../hooks/useGetCities';
+import ListItems from '../listItems/listItems';
 
 const Cities = () => {
   const {dispatch, state} = useCities();
@@ -21,31 +21,17 @@ const Cities = () => {
     getCities(state.nextPage);
   }, []);
   return (
-    <section>
-      <div className='cities'>
-        {
-          state.cities.map(city => (
-            <City key={city.geonameid} {...city} />
-          ))
-        }
-        {
-          state.status === API_STATUS.LOADING && <Skeleton count={10} />
-        }
-        {
-          state.nextPage && state.status !== API_STATUS.ERROR ?
-          <div>
-            <button onClick={loadMore}>Load More</button>
-            Or try searching by city, state or country to find what you are looking for
-          </div>
-          :
-          <div>
-            No more cities to display!
-          </div>
-        }
-        {
-          state.status === API_STATUS.ERROR && <div>There was an error loading cities.<button onClick={() => getCities(state.nextPage)}>Retry</button></div>
-        }
-      </div>
+    <section className='cities'>
+      <ListItems
+        loadingStatus={state.status}
+        loadingComponent={<Skeleton className='cities__loading' count={10}/>}
+        hasMore={state.nextPage}
+        loadMore={loadMore}
+        onRetry={loadMore}
+        items={state.cities}
+        >
+          {city => <City key={city.geonameid} {...city} />}
+      </ListItems>
     </section>
   );
 }

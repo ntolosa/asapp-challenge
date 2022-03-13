@@ -11,11 +11,12 @@ const Filters = () => {
   const { clearPreferences } = usePreferences();
   const getCities = useGetCities();
   const filterCities = async (filter) => {
+    const url = `${serverUrl}/cities?limit=${pageSize}&filter=${filter}`;
     dispatch({
       type: ACTION_TYPES.SET_FILTER,
-      payload: filter,
+      payload: url,
     });
-    getCities(`${serverUrl}/cities?limit=${pageSize}&filter=${filter}`);
+    getCities(url);
   }
   return (<section>
     <div className='filters'>

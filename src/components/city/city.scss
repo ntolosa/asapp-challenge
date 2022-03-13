@@ -1,3 +1,5 @@
+@import '../../styles/variables.scss';
+
 .city {
   border-bottom: 1px solid;
   display: flex;
@@ -10,7 +12,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    height: 3rem;
+    height: $list-item-height;
   }
 
   &:hover {

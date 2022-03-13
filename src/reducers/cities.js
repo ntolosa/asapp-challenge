@@ -25,6 +25,7 @@ export const citiesReducer = (state, action) => {
       return {
         ...state,
         filter: action.payload,
+        nextPage: action.payload,
         cities: [],
         status: API_STATUS.LOADING,
       }
