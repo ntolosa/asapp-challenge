@@ -51,7 +51,6 @@ const usePreferences = () => {
     } else {
       toast.error('Something went wrong. Please, try again');
     }
-    return status;
   };
 
   return { addPreference, clearPreferences };
