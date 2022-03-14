@@ -1,11 +1,11 @@
 import { serverUrl } from '../constants/constants';
-import { INITIAL_STATE } from '../reducers/state';
+import { INITIAL_STATE } from '../reducers/globalState';
 import { get } from '../helper/fetch';
 import { ACTION_TYPES } from '../constants/actionTypes';
-import { useCities } from '../context/cities';
+import { useGlobalState } from '../context/globalState';
 
 const useInitialize = () => {
-  const { dispatch } = useCities();
+  const { dispatch } = useGlobalState();
   return async () => {
     const data = await initialize();
     dispatch({

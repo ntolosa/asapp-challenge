@@ -1,12 +1,12 @@
 import './filters.scss';
 import InputSearch from '../inputSearch/inputSearch';
-import { useCities } from '../../context/cities';
+import { useGlobalState } from '../../context/globalState';
 import { ACTION_TYPES } from '../../constants/actionTypes';
 import {serverUrl, pageSize, VIEW_TYPE} from '../../constants/constants';
 import usePreferences from '../../hooks/usePreferences';
 
 const Filters = () => {
-  const { dispatch, state } = useCities();
+  const { dispatch, state } = useGlobalState();
   const { clearPreferences } = usePreferences();
   const filterCities = async (filter) => {
     const url = `${serverUrl}/cities?limit=${pageSize}&filter=${filter}`;

@@ -1,6 +1,6 @@
 import './cities.scss';
 import { useEffect } from 'react';
-import { useCities } from '../../context/cities';
+import { useGlobalState } from '../../context/globalState';
 import { ACTION_TYPES } from '../../constants/actionTypes';
 import City from '../city/city';
 import ListItems from '../listItems/listItems';
@@ -10,7 +10,7 @@ import useGetCities from '../../hooks/useGetCities';
 import useInitialize from '../../hooks/useUnitialize';
 
 const Cities = () => {
-  const {dispatch, state} = useCities();
+  const {dispatch, state} = useGlobalState();
   const getCities = useGetCities();
   const initialize = useInitialize();
   const loadMore = () => {

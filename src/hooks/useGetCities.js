@@ -1,10 +1,10 @@
 import { ACTION_TYPES } from "../constants/actionTypes";
 import { API_STATUS, VIEW_TYPE } from "../constants/constants";
-import { useCities } from "../context/cities";
+import { useGlobalState } from "../context/globalState";
 import { get } from "../helper/fetch";
 
 const useGetCities = () => {
-  const { dispatch, state } = useCities();
+  const { dispatch, state } = useGlobalState();
   const getList = async (url, viewType) => {
     if (viewType === VIEW_TYPE.ALL) {
       return get(url);

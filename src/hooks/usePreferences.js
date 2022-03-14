@@ -1,10 +1,10 @@
 import { ACTION_TYPES } from "../constants/actionTypes";
-import { useCities } from "../context/cities";
+import { useGlobalState } from "../context/globalState";
 import { get, patch } from "../helper/fetch";
 import { serverUrl } from '../constants/constants';
 
 const usePreferences = () => {
-  const { dispatch, state } = useCities();
+  const { dispatch, state } = useGlobalState();
   const addPreference = async (id, selected) => {
     const addPreferenceUrl = `${serverUrl}/preferences/cities`;
     const body = JSON.stringify({[id]: selected});

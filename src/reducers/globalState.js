@@ -16,7 +16,7 @@ const sortFunction = (({ name: nameA }, { name: nameB }) =>
   nameA.toLowerCase().localeCompare(nameB.toLowerCase())
 );
 
-export const citiesReducer = (state, action) => {
+export const globalStateReducer = (state, action) => {
   switch(action.type) {
     case ACTION_TYPES.INITIALIZE_DATA:
       return {
