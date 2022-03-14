@@ -1,7 +1,7 @@
 import { ACTION_TYPES } from "../constants/actionTypes";
 import { useGlobalState } from "../context/globalState";
 import { get, patch } from "../helper/fetch";
-import { serverUrl } from '../constants/constants';
+import { API_STATUS, serverUrl } from '../constants/constants';
 
 const usePreferences = () => {
   const { dispatch, state } = useGlobalState();
@@ -27,15 +27,14 @@ const usePreferences = () => {
       result[preference.geonameid] = false;
       return result;
     }, {});
-    try {
-      await patch(`${serverUrl}/preferences/cities`, JSON.stringify(preferences))
-      dispatch({
-        type: ACTION_TYPES.CLEAR_PREFERENCES,
-      });
-    } catch(e) {
-      console.error(e);
-    }
-  }
+    const { status } = await patch(`${serverUrl}/preferences/cities`, JSON.stringify(preferences));
+      if (status === API_STATUS.SUCCESS) {
+        dispatch({
+          type: ACTION_TYPES.CLEAR_PREFERENCES,
+        });
+      }
+      return status;
+  };
 
   return { addPreference, clearPreferences };
 }
@@ -52,6 +51,6 @@ const addPreferenceWithRetry = async (addPreferenceUrl, body, getCityUrl, promis
     get(getCityUrl),
   ];
   return addPreferenceWithRetry(addPreferenceUrl, body, getCityUrl, newPromises);
-}
+};
 
 export default usePreferences;

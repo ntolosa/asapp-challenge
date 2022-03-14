@@ -68,10 +68,10 @@ export const globalStateReducer = (state, action) => {
       return {
         ...state,
         preferences: [],
-        cities: [...state.cities.map(city => ({
+        cities: state.filter.viewType === VIEW_TYPE.ALL ? [...state.cities.map(city => ({
           ...city,
           selected: false,
-        }))],
+        }))] : [],
       }
     case ACTION_TYPES.ADD_PREFERENCE:
       return {
@@ -105,4 +105,4 @@ export const globalStateReducer = (state, action) => {
       return state;
     }
   }
-}
+};

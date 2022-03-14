@@ -19,14 +19,18 @@ const get = async (url) => {
 const patch = async (url, body) => {
   let status;
   try {
-    await fetch(url, {
+    const response = await fetch(url, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
       body,
     });
-    status = API_STATUS.SUCCESS;
+    if (!response.ok) {
+      status = API_STATUS.ERROR;
+    } else {
+      status = API_STATUS.SUCCESS;
+    }
   } catch(e) {
     status = API_STATUS.ERROR;
   }

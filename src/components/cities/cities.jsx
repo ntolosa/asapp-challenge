@@ -6,12 +6,12 @@ import City from '../city/city';
 import ListItems from '../listItems/listItems';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css'
-import useGetCities from '../../hooks/useGetCities';
+import useCities from '../../hooks/useCities';
 import useInitialize from '../../hooks/useUnitialize';
 
 const Cities = () => {
   const {dispatch, state} = useGlobalState();
-  const getCities = useGetCities();
+  const getCities = useCities();
   const initialize = useInitialize();
   const loadMore = () => {
     dispatch({

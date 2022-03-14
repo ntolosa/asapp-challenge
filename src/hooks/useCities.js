@@ -3,7 +3,7 @@ import { API_STATUS, VIEW_TYPE } from "../constants/constants";
 import { useGlobalState } from "../context/globalState";
 import { get } from "../helper/fetch";
 
-const useGetCities = () => {
+const useCities = () => {
   const { dispatch, state } = useGlobalState();
   const getList = async (url, viewType) => {
     if (viewType === VIEW_TYPE.ALL) {
@@ -36,4 +36,4 @@ const useGetCities = () => {
   }
 }
 
-export default useGetCities;
+export default useCities;
