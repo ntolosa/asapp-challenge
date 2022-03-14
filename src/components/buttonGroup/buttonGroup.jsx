@@ -1,22 +1,23 @@
 import './buttonGroup.scss';
+import Button from '../button/button';
 
 const ButtonGroup = ({buttons, handleClick}) => {
   const onClick = (button) => {
     handleClick(button);
   }
   return(
-    <>
+    <div className='button-group'>
       {
         buttons.map((button, i) => (
-          <button 
+          <Button 
             key={i}
             disabled={button.selected}
             onClick={()=>onClick(button)}>
               {button.name}
-          </button>
+          </Button>
         ))
       }
-    </>
+    </div>
   );
 }
 

@@ -35,7 +35,7 @@ const Cities = () => {
         onRetry={loadMore}
         items={state.cities}
         >
-          {city => <City key={city.geonameid} {...city} />}
+          {(city, index) => <City key={city.geonameid} {...city} index={index} />}
       </ListItems>
     </section>
   );

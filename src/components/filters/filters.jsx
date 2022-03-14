@@ -6,6 +6,7 @@ import {serverUrl, pageSize, VIEW_TYPE} from '../../constants/constants';
 import usePreferences from '../../hooks/usePreferences';
 import { useEffect, useState } from 'react';
 import ButtonGroup from '../buttonGroup/buttonGroup';
+import Button from '../button/button';
 
 const Filters = () => {
   const { dispatch, state } = useGlobalState();
@@ -52,8 +53,12 @@ const Filters = () => {
       <div className='filters'>
         <InputSearch handleSearch={filterCities}/>
         <div className='filter-buttons'>
-          <ButtonGroup buttons={viewTypeButtons} handleClick={handleViewClicked}/>
-          <button className='filter-buttons__clear' disabled={disableClearPreferences} onClick={onClearPreferences}>Clear selection</button>
+          <div className='filter-buttons__view-types'>
+            <ButtonGroup buttons={viewTypeButtons} handleClick={handleViewClicked}/>
+          </div>
+          <div className='filter-buttons__clear'>
+            <Button disabled={disableClearPreferences} onClick={onClearPreferences}>Clear selection</Button>
+          </div>
         </div>
       </div>
     </section>

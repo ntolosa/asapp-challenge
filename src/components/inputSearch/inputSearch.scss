@@ -1,3 +1,5 @@
+@import '../../styles/variables.scss';
+
 .search-item {
   display: flex;
   flex-direction: row;
@@ -5,14 +7,20 @@
   border: 1px solid;
   border-radius: 5px;
   padding: 5px;
+  background-color: $content-background-color;
 
   &__clear:hover {
     cursor: pointer;
   }
 
+  &__icon {
+    margin: 0.5rem;
+    display: flex;
+  }
+
   &__input {
     width: 100%;
-    font-size: 18px;
+    font-size: 1.5rem;
     border: none;
 
     &:focus {

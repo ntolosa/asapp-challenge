@@ -1,11 +1,13 @@
+@import './styles/variables.scss';
+
 body {
-  background-color: #d1d1d1;
+  background-color: $main-background-color;
 }
 
 .challenge {
-  max-width: 800px;
+  max-width: 780px;
   margin: auto;
-  background-color: #FFF;
+  background-color: $content-background-color;
   height: 100vh;
-  padding-top: 10px;
+  padding-top: 1rem;
 }

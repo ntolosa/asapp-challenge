@@ -18,7 +18,9 @@ const InputSearch = ({handleSearch}) => {
   }
   return (
     <div className='search-item'>
-      <BsSearch/>
+      <div className='search-item__icon'>
+        <BsSearch/>
+      </div>
       <input 
         className='search-item__input'
         placeholder='Start typing to filter the list...'

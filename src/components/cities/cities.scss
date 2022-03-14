@@ -1,13 +1,13 @@
 @import '../../styles/variables.scss';
 
 .cities{
-  height: calc(100vh - 150px);
-  border: 1px solid;
-  border-radius: 5px;
-  margin: 15px;
+  height: calc(100vh - 14rem);
+  border: 1px solid $section-border;
+  border-radius: 0.5rem;
+  margin: 2rem;
   overflow-y: auto;
 
   &__loading {
-    height: $list-item-height;
+    height: 3.5rem;
   }
 }
