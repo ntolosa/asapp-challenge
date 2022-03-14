@@ -17,12 +17,12 @@ const usePreferences = () => {
       const getCityUrl = `${serverUrl}/cities/${id}`;
       const result = await getCityWithRetry(getCityUrl);
       dispatch({
-        type: selected ? ACTION_TYPES.ADD_PREFERENCE : ACTION_TYPES.REMOVE_PREFERENCE,
+        type: ACTION_TYPES.ADD_PREFERENCE,
         payload: result.data,
       })
     } else {
       dispatch({
-        type: selected ? ACTION_TYPES.ADD_PREFERENCE : ACTION_TYPES.REMOVE_PREFERENCE,
+        type: ACTION_TYPES.REMOVE_PREFERENCE,
         payload: {
           geonameid: id,
         },

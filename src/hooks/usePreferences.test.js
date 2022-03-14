@@ -80,4 +80,99 @@ describe('Unit: usePreferences hook', () => {
     expect(toastMock).toHaveBeenCalledTimes(1);
     expect(toastMock).toHaveBeenCalledWith('Something went wrong. Please, try again');
   });
+
+  test('should remove a preference', async () => {
+    // arrange
+    const dispatch = jest.fn();
+    const state = {};
+    jest.spyOn(globalState, 'useGlobalState').mockImplementation(() => ({state, dispatch}));
+    jest.spyOn(fetchHelpers, 'patch').mockImplementation(() => Promise.resolve({status: API_STATUS.SUCCESS}));
+    const toastMock = jest.fn();
+    jest.spyOn(toast, 'error').mockImplementation(toastMock);
+    const patchBody = JSON.stringify({1:false});
+    const expectedAction = {
+      type: ACTION_TYPES.REMOVE_PREFERENCE,
+      payload: {
+        geonameid: 1,
+      },
+    };
+
+    // act
+    const {addPreference} = usePreferences();
+    await addPreference(1, false);
+
+    // assert
+    expect(globalState.useGlobalState).toHaveBeenCalledTimes(1);
+    expect(fetchHelpers.patch).toHaveBeenCalledTimes(1);
+    expect(fetchHelpers.patch).toHaveBeenCalledWith(`${serverUrl}/preferences/cities`, patchBody);
+    expect(dispatch).toHaveBeenCalledTimes(1);
+    expect(dispatch).toHaveBeenCalledWith(expectedAction);
+    expect(toastMock).toHaveBeenCalledTimes(0);
+  });
+
+  test('should display a toast when there is an error removing a preference', async () => {
+    // arrange
+    const dispatch = jest.fn();
+    const state = {};
+    jest.spyOn(globalState, 'useGlobalState').mockImplementation(() => ({state, dispatch}));
+    jest.spyOn(fetchHelpers, 'patch').mockImplementation(() => Promise.resolve({status: API_STATUS.ERROR}));
+    const toastMock = jest.fn();
+    jest.spyOn(toast, 'error').mockImplementation(toastMock);
+    const patchBody = JSON.stringify({1:false});
+
+    // act
+    const {addPreference} = usePreferences();
+    await addPreference(1, false);
+
+    // assert
+    expect(globalState.useGlobalState).toHaveBeenCalledTimes(1);
+    expect(fetchHelpers.patch).toHaveBeenCalledTimes(1);
+    expect(fetchHelpers.patch).toHaveBeenCalledWith(`${serverUrl}/preferences/cities`, patchBody);
+    expect(dispatch).toHaveBeenCalledTimes(0);
+    expect(toastMock).toHaveBeenCalledTimes(1);
+    expect(toastMock).toHaveBeenCalledWith('Something went wrong. Please, try again');
+  });
+
+  test('should add a preference', async () => {
+    // arrange
+    const city = {
+      geonameid: 1,
+      name: 'Cordoba',
+      country: 'Argentina',
+      subcountry: 'Cordoba',
+    };
+    const dispatch = jest.fn();
+    const state = {};
+    jest.spyOn(globalState, 'useGlobalState').mockImplementation(() => ({state, dispatch}));
+    jest.spyOn(fetchHelpers, 'patch').mockImplementation(() => Promise.resolve({status: API_STATUS.SUCCESS}));
+    jest.spyOn(fetchHelpers, 'get').mockImplementation(() => Promise.resolve({
+      status: API_STATUS.SUCCESS,
+      data: {
+        ...city
+      },
+    }));
+    const toastMock = jest.fn();
+    jest.spyOn(toast, 'error').mockImplementation(toastMock);
+    const patchBody = JSON.stringify({1:true});
+    const expectedAction = {
+      type: ACTION_TYPES.ADD_PREFERENCE,
+      payload: {
+        ...city
+      },
+    };
+
+    // act
+    const {addPreference} = usePreferences();
+    await addPreference(1, true);
+
+    // assert
+    expect(globalState.useGlobalState).toHaveBeenCalledTimes(1);
+    expect(fetchHelpers.patch).toHaveBeenCalledTimes(1);
+    expect(fetchHelpers.patch).toHaveBeenCalledWith(`${serverUrl}/preferences/cities`, patchBody);
+    expect(fetchHelpers.get).toHaveBeenCalledTimes(1);
+    expect(fetchHelpers.get).toHaveBeenCalledWith(`${serverUrl}/cities/1`);
+    expect(dispatch).toHaveBeenCalledTimes(1);
+    expect(dispatch).toHaveBeenCalledWith(expectedAction);
+    expect(toastMock).toHaveBeenCalledTimes(0);
+  });
 });
