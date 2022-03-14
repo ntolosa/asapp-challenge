@@ -82,13 +82,14 @@ export const globalStateReducer = (state, action) => {
           selected: city.geonameid === action.payload.data.geonameid ? true : city.selected,
         }))].sort(sortFunction),
       };
-    case ACTION_TYPES.REMOVE_PREFERENCE:  
+    case ACTION_TYPES.REMOVE_PREFERENCE:
+      const newPreferences = state.preferences.filter(preference => preference.geonameid !== action.payload.data.geonameid);
       return {
         ...state,
-        preferences: state.preferences.filter(preference => preference.geonameid !== action.payload),
-        cities: [...state.cities.map(city => ({
+        preferences: newPreferences,
+        cities: state.filter.viewType === VIEW_TYPE.SELECTED ? newPreferences : [...state.cities.map(city => ({
           ...city,
-          selected: city.geonameid === action.payload ? false : city.selected,
+          selected: city.geonameid === action.payload.data.geonameid ? false : city.selected,
         }))],
       };
     case ACTION_TYPES.SET_ERROR:
