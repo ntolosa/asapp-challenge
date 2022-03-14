@@ -23,7 +23,7 @@ export const globalStateReducer = (state, action) => {
         ...state,
         cities: action.payload.cities.data.data.map(city=> ({
           ...city,
-          selected: action.payload.preferences.find(preference => preference.geonameid === city.geonameid),
+          selected: action.payload.preferences.find(preference => preference.geonameid === city.geonameid) ? true : false,
         })),
         preferences: action.payload.preferences.map(preference => ({
           ...preference,
@@ -37,7 +37,7 @@ export const globalStateReducer = (state, action) => {
         ...state,
         cities:  [...state.cities, ...action.payload.data.map(city=> ({
           ...city,
-          selected: state.preferences.find(preference => preference.geonameid === city.geonameid),
+          selected: state.preferences.find(preference => preference.geonameid === city.geonameid) ? true : false,
         }))],
         nextPage: action.payload.links.next,
         status: API_STATUS.SUCCESS,
