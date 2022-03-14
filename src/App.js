@@ -2,7 +2,7 @@ import './App.scss';
 import { useReducer } from 'react';
 import Filters from './components/filters/filters';
 import Cities from './components/cities/cities';
-import { INITIAL_STATE, citiesReducer } from './reducers/cities';
+import { INITIAL_STATE, citiesReducer } from './reducers/state';
 import { citiesContext } from './context/cities';
 
 function App() {

@@ -15,7 +15,6 @@ const usePreferences = () => {
     ];
 
     const result = await addPreferenceWithRetry(addPreferenceUrl, body, getCityUrl, promises);
-    console.log(result);
 
     dispatch({
       type: selected ? ACTION_TYPES.ADD_PREFERENCE : ACTION_TYPES.REMOVE_PREFERENCE,
@@ -24,7 +23,7 @@ const usePreferences = () => {
   };
 
   const clearPreferences = async() => {
-    const preferences = state.preferences.data.reduce((result, preference) => {
+    const preferences = state.preferences.reduce((result, preference) => {
       result[preference.geonameid] = false;
       return result;
     }, {});

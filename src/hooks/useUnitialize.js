@@ -1,5 +1,5 @@
 import { serverUrl } from '../constants/constants';
-import { INITIAL_STATE } from '../reducers/cities';
+import { INITIAL_STATE } from '../reducers/state';
 import { get } from '../helper/fetch';
 import { ACTION_TYPES } from '../constants/actionTypes';
 import { useCities } from '../context/cities';
@@ -32,7 +32,7 @@ const initialize = async () => {
 
 const getInitialData = async () => {
   // gets data for preferences and cities (first page)
-  const urls = [`${serverUrl}/preferences/cities`, INITIAL_STATE.cities.nextPage];
+  const urls = [`${serverUrl}/preferences/cities`, INITIAL_STATE.nextPage];
   const promises = urls.map(url=>get(url));
   return await resolvePromisesWithRetry(urls, promises);
 };
