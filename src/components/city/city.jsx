@@ -1,9 +1,9 @@
 import './city.scss';
-import { useState } from 'react';
+import React from 'react';
 import usePreferences from '../../hooks/usePreferences';
 
 const City = ({country, geonameid, name, selected = false, subcountry, index}) => {
-  const [disabled, setDisabled] = useState(false);
+  const [disabled, setDisabled] = React.useState(false);
   const { addPreference } = usePreferences();
 
   const handleSelection = async (event) => {
@@ -15,7 +15,7 @@ const City = ({country, geonameid, name, selected = false, subcountry, index}) =
   return (
     <div className={index % 2 === 1 ? 'city city--odd' : 'city'}>
       <div className='city__selection'>
-        <input type="checkbox" checked={selected} onChange={handleSelection} disabled={disabled}/>
+        <input type="checkbox" checked={selected} onChange={handleSelection} disabled={disabled} data-testid={`checkbox-${geonameid}`}/>
       </div>
       <div className='city__info'>
         <div>{name}</div>
