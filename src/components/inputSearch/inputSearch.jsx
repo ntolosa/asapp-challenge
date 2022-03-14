@@ -28,7 +28,7 @@ const InputSearch = ({handleSearch}) => {
         onChange={handleChange}
         onKeyPress={handleInputSearch}/>
       {!!searchText.trim() &&
-        <div className='search-item__clear' onClick={clearSearch}>
+        <div className='search-item__clear' onClick={clearSearch} role="button">
           <BsXSquare/>
         </div>
       }
