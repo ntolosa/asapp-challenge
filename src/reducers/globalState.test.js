@@ -47,6 +47,7 @@ describe('Unit: global state reducer', () => {
       preferences: [],
       nextPage: action.payload.cities.data.links.next,
       status: API_STATUS.SUCCESS,
+      isInitialized: true,
     };
 
     // act
@@ -78,6 +79,7 @@ describe('Unit: global state reducer', () => {
       preferences: [...cities.filter(city=>city.geonameid === 1)],
       nextPage: action.payload.cities.data.links.next,
       status: API_STATUS.SUCCESS,
+      isInitialized: true,
     };
 
     // act

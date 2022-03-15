@@ -11,6 +11,7 @@ export const INITIAL_STATE = {
   },
   nextPage: initialUrl,
   status: API_STATUS.LOADING,
+  isInitialized: false,
 };
 const sortFunction = (({ name: nameA }, { name: nameB }) =>
   nameA.toLowerCase().localeCompare(nameB.toLowerCase())
@@ -31,6 +32,7 @@ export const globalStateReducer = (state, action) => {
         })).sort(sortFunction),
         nextPage: action.payload.cities.data.links.next,
         status: API_STATUS.SUCCESS,
+        isInitialized: true,
       }
     case ACTION_TYPES.SET_CITIES:
       return {
