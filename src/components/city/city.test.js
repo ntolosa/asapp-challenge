@@ -46,6 +46,12 @@ describe('Unit: city component', () => {
       subcountry: 'Cordoba',
       selected: false,
     };
+    const expectedPayload = {
+      geonameid: 1,
+      name: 'Cordoba',
+      country: 'Argentina',
+      subcountry: 'Cordoba',
+    };
     const setStateMock = jest.fn();
     jest.spyOn(React, 'useState').mockImplementation(() => [city.selected, setStateMock]);
     const addPreferenceMock = jest.fn();
@@ -68,6 +74,6 @@ describe('Unit: city component', () => {
     await waitFor(() => expect(setStateMock).toHaveBeenCalledTimes(2));
     expect(usePreferences.default).toHaveBeenCalledTimes(1);
     expect(addPreferenceMock).toHaveBeenCalledTimes(1);
-    expect(addPreferenceMock).toHaveBeenCalledWith(1, true);
+    expect(addPreferenceMock).toHaveBeenCalledWith(expectedPayload, true);
   });
 });

@@ -83,23 +83,27 @@ describe('Unit: usePreferences hook', () => {
 
   test('should remove a preference', async () => {
     // arrange
+    const city = {
+      geonameid: 2,
+      name: 'Mendoza',
+      country: 'Argentina',
+      subcountry: 'Mendoza',
+    };
     const dispatch = jest.fn();
     const state = {};
     jest.spyOn(globalState, 'useGlobalState').mockImplementation(() => ({state, dispatch}));
     jest.spyOn(fetchHelpers, 'patch').mockImplementation(() => Promise.resolve({status: API_STATUS.SUCCESS}));
     const toastMock = jest.fn();
     jest.spyOn(toast, 'error').mockImplementation(toastMock);
-    const patchBody = JSON.stringify({1:false});
+    const patchBody = JSON.stringify({2:false});
     const expectedAction = {
       type: ACTION_TYPES.REMOVE_PREFERENCE,
-      payload: {
-        geonameid: 1,
-      },
+      payload: city,
     };
 
     // act
     const {addPreference} = usePreferences();
-    await addPreference(1, false);
+    await addPreference(city, false);
 
     // assert
     expect(globalState.useGlobalState).toHaveBeenCalledTimes(1);
@@ -122,7 +126,12 @@ describe('Unit: usePreferences hook', () => {
 
     // act
     const {addPreference} = usePreferences();
-    await addPreference(1, false);
+    await addPreference({
+      geonameid: 1,
+      name: 'Cordoba',
+      country: 'Argentina',
+      subcountry: 'Cordoba',
+    }, false);
 
     // assert
     expect(globalState.useGlobalState).toHaveBeenCalledTimes(1);
@@ -145,12 +154,6 @@ describe('Unit: usePreferences hook', () => {
     const state = {};
     jest.spyOn(globalState, 'useGlobalState').mockImplementation(() => ({state, dispatch}));
     jest.spyOn(fetchHelpers, 'patch').mockImplementation(() => Promise.resolve({status: API_STATUS.SUCCESS}));
-    jest.spyOn(fetchHelpers, 'get').mockImplementation(() => Promise.resolve({
-      status: API_STATUS.SUCCESS,
-      data: {
-        ...city
-      },
-    }));
     const toastMock = jest.fn();
     jest.spyOn(toast, 'error').mockImplementation(toastMock);
     const patchBody = JSON.stringify({1:true});
@@ -163,14 +166,12 @@ describe('Unit: usePreferences hook', () => {
 
     // act
     const {addPreference} = usePreferences();
-    await addPreference(1, true);
+    await addPreference(city, true);
 
     // assert
     expect(globalState.useGlobalState).toHaveBeenCalledTimes(1);
     expect(fetchHelpers.patch).toHaveBeenCalledTimes(1);
     expect(fetchHelpers.patch).toHaveBeenCalledWith(`${serverUrl}/preferences/cities`, patchBody);
-    expect(fetchHelpers.get).toHaveBeenCalledTimes(1);
-    expect(fetchHelpers.get).toHaveBeenCalledWith(`${serverUrl}/cities/1`);
     expect(dispatch).toHaveBeenCalledTimes(1);
     expect(dispatch).toHaveBeenCalledWith(expectedAction);
     expect(toastMock).toHaveBeenCalledTimes(0);

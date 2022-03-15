@@ -2,6 +2,7 @@ import { ACTION_TYPES } from "../constants/actionTypes";
 import { API_STATUS, VIEW_TYPE } from "../constants/constants";
 import { useGlobalState } from "../context/globalState";
 import { get } from "../helper/fetch";
+import { filterCities } from "../helper/utils";
 
 const useCities = () => {
   const { dispatch, state } = useGlobalState();
@@ -12,9 +13,7 @@ const useCities = () => {
       // since preferred cities are stored in memory, this code simulates the server response
       return Promise.resolve({
         data: {
-          data: state.preferences.filter(preference => preference.name.toLowerCase().trim().indexOf(state.filter.searchTerm) >= 0 ||
-            preference.country.toLowerCase().trim().indexOf(state.filter.searchTerm) >= 0 ||
-            preference.subcountry.toLowerCase().trim().indexOf(state.filter.searchTerm) >= 0),
+          data: filterCities(state.preferences, state.filter.searchTerm),
           links: {},
         },
         status: API_STATUS.SUCCESS,

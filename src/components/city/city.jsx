@@ -9,7 +9,12 @@ const City = ({country, geonameid, name, selected = false, subcountry, index}) =
   const handleSelection = async (event) => {
     setDisabled(true);
     const isChecked = event.target.checked;
-    await addPreference(geonameid, isChecked);
+    await addPreference({
+      geonameid,
+      name,
+      country,
+      subcountry,
+    }, isChecked);
     setDisabled(false);
   }
   return (

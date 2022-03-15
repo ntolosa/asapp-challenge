@@ -1,5 +1,6 @@
 import { ACTION_TYPES } from "../constants/actionTypes"
 import { API_STATUS, pageSize, serverUrl, VIEW_TYPE } from "../constants/constants";
+import { filterCities } from "../helper/utils";
 
 const initialUrl = `${serverUrl}/cities?limit=${pageSize}`;
 export const INITIAL_STATE = {
@@ -78,18 +79,18 @@ export const globalStateReducer = (state, action) => {
     case ACTION_TYPES.ADD_PREFERENCE:
       return {
         ...state,
-        preferences: [...state.preferences, {...action.payload, selected: true}],
+        preferences: [...state.preferences, {...action.payload, selected: true}].sort(sortFunction),
         cities: [...state.cities.map(city => ({
           ...city,
           selected: city.geonameid === action.payload.geonameid ? true : city.selected,
-        }))].sort(sortFunction),
+        }))],
       };
     case ACTION_TYPES.REMOVE_PREFERENCE:
       const newPreferences = state.preferences.filter(preference => preference.geonameid !== action.payload.geonameid);
       return {
         ...state,
         preferences: newPreferences,
-        cities: state.filter.viewType === VIEW_TYPE.SELECTED ? newPreferences : [...state.cities.map(city => ({
+        cities: state.filter.viewType === VIEW_TYPE.SELECTED ? filterCities(newPreferences, state.filter.searchTerm) : [...state.cities.map(city => ({
           ...city,
           selected: city.geonameid === action.payload.geonameid ? false : city.selected,
         }))],
