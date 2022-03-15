@@ -6,11 +6,11 @@ import * as usePreferences from '../../hooks/usePreferences';
 import * as globalState from '../../context/globalState';
 import { INITIAL_STATE } from '../../reducers/globalState';
 import { ACTION_TYPES } from '../../constants/actionTypes';
-import { pageSize, serverUrl } from '../../constants/constants';
+import { pageSize, serverUrl, VIEW_TYPE } from '../../constants/constants';
 jest.mock('../inputSearch/inputSearch', () => ({handleSearch}) => <input onClick={(event) => handleSearch(event.target.value)}/>);
 jest.mock('../button/button', () => ({disabled, onClick}) => <button disabled={disabled} onClick={onClick}>Clear preferences</button>);
 jest.mock('../buttonGroup/buttonGroup', () => ({buttons, handleClick}) => buttons.map ?
-  buttons.map(button => <button onClick={handleClick} disabled={button.selected}>{button.name}</button>) : <div></div>);
+  buttons.map((button, index) => <button key={index} onClick={() => handleClick(button)} disabled={button.selected}>{button.name}</button>) : <div></div>);
 
 describe('Unit: filters component', () => {
   test('should render filters', () => {
@@ -29,9 +29,11 @@ describe('Unit: filters component', () => {
     // act
     render(<Filters />);
     const input = screen.getByRole('textbox');
+    const button = screen.getByRole('button');
   
     // assert
     expect(input).toBeInTheDocument();
+    expect(button).toBeInTheDocument();
     expect(React.useEffect).toHaveBeenCalledTimes(1);
     expect(React.useState).toHaveBeenCalledTimes(2);
     expect(globalState.useGlobalState).toHaveBeenCalledTimes(1);
@@ -109,5 +111,40 @@ describe('Unit: filters component', () => {
     expect(useStateMock).toHaveBeenCalledTimes(3);
     expect(preferencesMock).toHaveBeenCalledTimes(1);
     expect(dispatch).toHaveBeenCalledTimes(0);
+  });
+
+  test('should change view when clicking on a view type button', () => {
+    // arrange
+    const dispatch = jest.fn();
+    const state = {
+      ...INITIAL_STATE,
+    };
+    const exepctedAction = {
+      type: ACTION_TYPES.SELECT_VIEW_TYPE,
+      payload: VIEW_TYPE.SELECTED,
+    };
+    // I need react to update component state in order to render view type buttons
+    React.useState.mockRestore();
+    React.useEffect.mockRestore();
+    const preferencesMock = jest.fn();
+    jest.spyOn(usePreferences, 'default').mockImplementation(() => ({
+      clearPreferences: preferencesMock,
+    }));
+    jest.spyOn(globalState, 'useGlobalState').mockImplementation(() => ({state, dispatch}));
+  
+    // act
+    render(<Filters />);
+    const button = screen.getByRole('button', {
+      name: 'Show Selected (0)',
+    });
+    userEvents.click(button);
+  
+    // assert
+    expect(button).toBeInTheDocument();
+    expect(globalState.useGlobalState).toHaveBeenCalledTimes(2);
+    expect(usePreferences.default).toHaveBeenCalledTimes(2);
+    expect(preferencesMock).toHaveBeenCalledTimes(0);
+    expect(dispatch).toHaveBeenCalledTimes(1);
+    expect(dispatch).toHaveBeenCalledWith(exepctedAction);
   });
 });
