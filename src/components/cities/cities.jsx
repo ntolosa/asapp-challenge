@@ -8,7 +8,6 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css'
 import useCities from '../../hooks/useCities';
 import useInitialize from '../../hooks/useInitialize';
-import { API_STATUS } from '../../constants/constants';
 
 const Cities = () => {
   const {dispatch, state} = useGlobalState();

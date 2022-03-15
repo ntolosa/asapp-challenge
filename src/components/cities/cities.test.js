@@ -35,6 +35,5 @@ describe('Unit: cities component', () => {
     expect(globalState.useGlobalState).toHaveBeenCalledTimes(1);
     expect(initializeMock).toHaveBeenCalledTimes(1);
     expect(getCitiesMock).toHaveBeenCalledTimes(0);
-    
   });
 });
